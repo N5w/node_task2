@@ -90,6 +90,36 @@ app.get('/users/:userId', (req, res) => {
   return res.json(user)
 })
 
+let userIdCounter = users.length
+
+app.post('/users', (req, res) => {
+    const user = {
+        id: ++userIdCounter,
+        name: req.body.name
+    }
+    users.push(user)
+    res.status(201).json(user)
+})
+
+const getUserIndex = (userId) => users.findIndex(u => u.id === parseInt(userId))
+app.delete('/users/:userId', (req, res) => {
+  const userIndex = getUserIndex(req.params.userId)
+
+  if (userIndex === -1) return res.status(404).json({})
+
+  users.splice(userIndex, 1)
+  res.json(users)
+})
+
+app.put('/users/:userId', (req, res) => {
+  const user = getUser(req.params.userId)
+
+  if (!user) return res.status(404).json({})
+
+  user.name = req.body.name
+  res.json(user)
+})
+
 // app.get("/user/:userId", (req, res) => {
 //     // const idresult = req.parms.id;
 //    let result = users.map(itemid=>itemid.id)
@@ -106,11 +136,11 @@ app.get('/users/:userId', (req, res) => {
 
 // });
 
-app.post("/user", (req, res) => {
+// app.post("/user", (req, res) => {
      
-    let username = users.map(nameuser => nameuser.name);
-    res.send(username) + "nidaa"
- })
+//     let username = users.map(nameuser => nameuser.name);
+//     res.send(username) + "nidaa"
+//  })
 
 
 app.get("/child", (req, res) => {
