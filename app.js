@@ -75,20 +75,55 @@ app.listen(3000, function() {
     "The server has started on port 3000. Head to localhost:3000 in the browser and see what's there!"
   );
 });
+ 
+// read name of users
+app.get('/users', (req, res) => {
+    // res.json(users[1].name)
+    
+     res.json(users.map(userss=>userss.name))
+})
 
+const getUser = (userId) => users.find(u => u.id === parseInt(userId))
+app.get('/users/:userId', (req, res) => {
+  const user = getUser(req.params.userId)
+  if (!user) return res.status(404).json("This id Not found")
+  return res.json(user)
+})
 
-app.get("/user", (req, res) => {
-    // const idresult = req.parms.id;
-   let result = users.map(itemid=>itemid.id)
+// app.get("/user/:userId", (req, res) => {
+//     // const idresult = req.parms.id;
+//    let result = users.map(itemid=>itemid.id)
 
    
-    if (result) {
-        res.json(result)
-         return res.send(result)
+//     if (result) {
+//         // res.json(result)
+//          return res.send(result)
 
+//     } else
+//         res.sendStatus(404).json('Not found').send(req.params)
+//      return res.send(result)
+    
+
+// });
+
+app.post("/user", (req, res) => {
+     
+    let username = users.map(nameuser => nameuser.name);
+    res.send(username) + "nidaa"
+ })
+
+
+app.get("/child", (req, res) => {
+    // const idresult = req.parms.id;
+   let childrenresult =children.map(childid=>childid.id)
+    if (childrenresult) {
+        // res.json(result)
+         return res.send(childrenresult)
     } else
-        res.sendStatus(404).json('Not found')
-     return res.send(result)
+      res.sendStatus(404).json('Not found')
+    //  return res.send(childrenresult)
     
 
 });
+
+
